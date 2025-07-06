@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"    # edge port (API única para todos os serviços)
+      - "4572:4572"    # porta legada S3 (opcional)
+    environment:
+      - SERVICES=s3   # informe aqui todos os serviços que quer emular (ex: "s3,lambda,dynamodb")
+      - DEFAULT_REGION=us-east-1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./localstack-data:/tmp/localstack/data
+      - /var/run/docker.sock:/var/run/docker.sock

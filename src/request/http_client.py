@@ -2,6 +2,7 @@ import os
 import logging
 import requests
 from dotenv import load_dotenv
+from typing import Dict, List
 
 
 # Determina a raiz do projeto dinamicamente
@@ -27,15 +28,18 @@ class HttpClient:
         self.base_url = base_url.rstrip('/')
         self.session = requests.Session()
         # Timeout padrão para todas as requisições
-        self.timeout = (5, 15)  # (connect timeout, read timeout)
+        #self.timeout = (5, 15)  # (connect timeout, read timeout)
 
-    def get(self, path: str, params: dict = None) -> dict:
-        url = f"{self.base_url}{path}"
-        try:
-            logger.info(f"GET {url} params={params}")
-            resp = self.session.get(url, params=params, timeout=self.timeout)
-            resp.raise_for_status()
-            return resp.json()
-        except requests.RequestException as e:
-            logger.error(f"Erro ao chamar {url}: {e}")
-            raise
+    def get_json_api(self, base_url: str, endpoint: str, timeout: int = 10) -> List[Dict]:
+        """
+        Busca dados JSON da API e retorna lista de registros.
+        """
+        url = f"{base_url.rstrip('/')}{endpoint}"
+        logger.info("Fetching data from %s", url)
+        resp = requests.get(url, timeout=timeout)
+        resp.raise_for_status()
+        data = resp.json()
+        if not isinstance(data, list):
+            logger.error("Expected list but got %s", type(data))
+            raise ValueError("API não retornou lista de registros")
+        return data
