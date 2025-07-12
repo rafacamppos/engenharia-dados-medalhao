@@ -13,3 +13,19 @@ Este repositório apresenta uma estrutura simples de pastas para projetos de eng
 - `tests` – testes automatizados do projeto.
 
 Adapte esta estrutura às necessidades do seu projeto.
+
+## Exportar Parquet para Cosmos DB
+
+Utilize o script `src/adapters/cosmos/upload_parquet.py` para ler um arquivo Parquet e inserir os registros em um container do Azure Cosmos DB. Configure as seguintes variáveis de ambiente antes de executar:
+
+- `PARQUET_PATH` – caminho do arquivo parquet de origem
+- `COSMOS_ENDPOINT` – URL do endpoint do Cosmos DB
+- `COSMOS_KEY` – chave de acesso do Cosmos DB
+- `COSMOS_DATABASE` – nome do banco de dados
+- `COSMOS_CONTAINER` – nome do container
+
+Exemplo de execução:
+
+```bash
+python src/adapters/cosmos/upload_parquet.py
+```
