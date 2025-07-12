@@ -1,4 +1,6 @@
 requests
 python-dotenv
-sparksql
+pyspark
 boto3
+azure-cosmos
+pyarrow
